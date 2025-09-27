@@ -1,6 +1,7 @@
 package com.mangementsystem.studentresult_mangement.Controller;
 
 import com.mangementsystem.studentresult_mangement.Entity.Student;
+import com.mangementsystem.studentresult_mangement.RequestDTO.StudentRequestDTO;
 import com.mangementsystem.studentresult_mangement.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,8 @@ public class StudentController {
     @Autowired
     StudentService studentService;
     @PostMapping("/add")
-    public String addStudent(@RequestBody Student student) throws Exception{
-        studentService.addStudent(student);
-        return student.getName()+" Joined in College ";
+    public String addStudent(@RequestBody StudentRequestDTO studentRequestDTO) {
+        studentService.addStudent(studentRequestDTO);
+        return studentRequestDTO.getName()+" Joined in College ";
     }
 }

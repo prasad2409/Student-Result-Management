@@ -24,5 +24,5 @@ public class Semester {
     @JoinColumn(name = "branch_id")
     Branch branch;
     @OneToMany(mappedBy = "semester",cascade = CascadeType.ALL)
-    List<Student> students = new ArrayList<>();
+    List<Student> studentList = new ArrayList<>();
 }
