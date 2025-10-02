@@ -10,21 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class Semester {
+public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int year;
-    private int semNumber;
+    private String subjectName;
+    private int credits;
+    @Column(unique = true)
+    private  String subjectCode;
+    private int max_Marks;
     @ManyToOne
-    @JoinColumn(name = "branch_id")
-    Branch branch;
-    @OneToMany(mappedBy = "semester",cascade = CascadeType.ALL)
-    List<Student> studentList = new ArrayList<>();
-    @OneToMany(mappedBy = "semester",cascade = CascadeType.ALL)
-    List<Subject> subjectsList = new ArrayList<>();
+    @JoinColumn(name = "semester_id")
+    Semester semester;
+    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL)
+    List<Result> resultList = new ArrayList<>();
 }

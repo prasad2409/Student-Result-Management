@@ -38,8 +38,8 @@ public class StudentService {
                 .filter(s->s.getBranch().getCode().equals(studentRequestDTO.getBranchCode()))
                 .findFirst()
                 .orElseThrow(()->new RuntimeException("Semester Not Found"));
+        semester.getStudentList().add(student);
         student.setSemester(semester);
-        
         branchRepository.save(branch);
     }
     public String generateRollNo(String branchCode){
