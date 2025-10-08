@@ -17,6 +17,6 @@ public class SemesterController {
     @PostMapping("/add")
     public String addSem(@RequestBody SemesterRequestDTO semesterRequestDTO) throws Exception{
         semesterService.addSem(semesterRequestDTO);
-        return "Semester is Add";
+        return "Semester is Added Successfully";
     }
 }

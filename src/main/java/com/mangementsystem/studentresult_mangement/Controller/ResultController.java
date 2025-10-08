@@ -16,7 +16,6 @@ public class ResultController {
     ResultService resultService;
     @PostMapping("/add")
     public String addResult(@RequestBody ResultRequestDTO resultRequestDTO){
-        resultService.addResult(resultRequestDTO);
-        return "Result is Added!";
+        return resultService.addResult(resultRequestDTO);
     }
 }

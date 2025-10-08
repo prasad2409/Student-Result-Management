@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class StudentService {
@@ -28,8 +29,13 @@ public class StudentService {
         student.setPhoneNo(studentRequestDTO.getPhoneNo());
         String rollNo = generateRollNo(studentRequestDTO.getBranchCode());
         student.setRollNo(rollNo);
-
         Branch branch = branchRepository.findByCode(studentRequestDTO.getBranchCode());
+        boolean exists = branch .getStudentList()
+                        .stream()
+                        .anyMatch(s-> Objects.equals(s.getRollNo(),student.getRollNo()));
+        if(exists)
+            throw new RuntimeException("Roll Number Already Present "+ rollNo);
+
         branch.getStudentList().add(student);
         student.setBranch(branch);
 
@@ -40,12 +46,13 @@ public class StudentService {
                 .orElseThrow(()->new RuntimeException("Semester Not Found"));
         semester.getStudentList().add(student);
         student.setSemester(semester);
-        branchRepository.save(branch);
+        studentRepository.save(student);
     }
     public String generateRollNo(String branchCode){
         Branch branch = branchRepository.findByCode(branchCode);
         int nextRollNo = branch.getStudentList().size()+1;
         int year = LocalDate.now().getYear();
+
         return year+branchCode+String.format("%02d",nextRollNo);
     }
 }

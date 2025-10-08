@@ -18,21 +18,47 @@ public class ResultService {
     SubjectRepository subjectRepository;
     @Autowired
     StudentRepository studentRepository;
-    public void addResult(ResultRequestDTO resultRequestDTO){
+    public String addResult(ResultRequestDTO resultRequestDTO){
+        int marks = resultRequestDTO.getMarksScored();
         Result result = new Result();
         result.setMarksScored(resultRequestDTO.getMarksScored());
-        result.setGrade(resultRequestDTO.getGrade());
-        result.setCredits(resultRequestDTO.getCredits());
+
+        if(marks >= 85){
+            result.setGrade('A');
+            result.setCredits(3);
+        }
+        else if(marks >=75){
+            result.setGrade('B');
+            result.setCredits(3);
+        }
+        else if(marks >=65){
+            result.setGrade('C');
+            result.setCredits(3);
+        }
+        else if(marks >=55){
+            result.setGrade('D');
+            result.setCredits(3);
+        }
+        else if(marks >=45){
+            result.setGrade('E');
+            result.setCredits(3);
+        }
+        else {
+            result.setGrade('F');
+            result.setCredits(0);
+        }
 
         Subject subject = subjectRepository.findBySubjectCode(resultRequestDTO.getSubjectCode());
         subject.getResultList().add(result);
         result.setSubject(subject);
-        subjectRepository.save(subject);
 
         Student student =studentRepository.findByRollNo(resultRequestDTO.getRollNo());
         student.getResultList().add(result);
         result.setStudent(student);
 
-        studentRepository.save(student);
+
+        resultRepository.save(result);
+
+        return "Result Added with "+result.getGrade()+" Grade";
     }
 }

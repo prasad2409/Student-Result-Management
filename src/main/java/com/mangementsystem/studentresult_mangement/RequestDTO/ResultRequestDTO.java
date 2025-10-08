@@ -13,6 +13,4 @@ public class ResultRequestDTO {
     private String rollNo;
     private String subjectCode;
     private int marksScored;
-    private char grade;
-    private int credits;
 }
