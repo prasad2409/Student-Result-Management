@@ -50,9 +50,32 @@ public class StudentService {
     }
     public String generateRollNo(String branchCode){
         Branch branch = branchRepository.findByCode(branchCode);
-        int nextRollNo = branch.getStudentList().size()+1;
-        int year = LocalDate.now().getYear();
 
-        return year+branchCode+String.format("%02d",nextRollNo);
+        int index=0;
+        List<Student> studentList = branch.getStudentList();
+        String lastRollNo = null;
+
+        if(studentList.size()>0){
+            index = studentList.size()-1;
+            lastRollNo = studentList.get(index).getRollNo();
+        }
+        else {
+            int year = LocalDate.now().getYear();
+            return year+branchCode+"01";
+        }
+
+        String prefix = lastRollNo.substring(0,lastRollNo.length()-2);
+        String last = lastRollNo.substring(lastRollNo.length()-2);
+
+        int next = Integer.parseInt(last);
+        next++;
+
+        return prefix+String.format("%02d",next);
+    }
+    public String deleteStudent(String rollNo){
+        Student student = studentRepository.findByRollNo(rollNo);
+//        studentRepository.delete(student);
+        studentRepository.deleteByRollNo(rollNo);
+        return student.getName()+" Left the College !!";
     }
 }
