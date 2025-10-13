@@ -7,10 +7,13 @@ import com.mangementsystem.studentresult_mangement.Repository.BranchRepository;
 import com.mangementsystem.studentresult_mangement.Repository.SemesterRepository;
 import com.mangementsystem.studentresult_mangement.Repository.StudentRepository;
 import com.mangementsystem.studentresult_mangement.RequestDTO.StudentRequestDTO;
+import com.mangementsystem.studentresult_mangement.ResponseDTO.getAllStudentsResponseDTO;
+import com.mangementsystem.studentresult_mangement.ResponseDTO.studentResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -77,5 +80,38 @@ public class StudentService {
 //        studentRepository.delete(student);
         studentRepository.deleteByRollNo(rollNo);
         return student.getName()+" Left the College !!";
+    }
+    public List<getAllStudentsResponseDTO> getAllStudents(){
+        List<Student> studentList = studentRepository.findAll();
+        List<getAllStudentsResponseDTO> responseDTO = new ArrayList<>();
+        for(Student pre :studentList){
+            getAllStudentsResponseDTO getAllStudentsResponseDTO = new getAllStudentsResponseDTO();
+            getAllStudentsResponseDTO.setName(pre.getName());
+            getAllStudentsResponseDTO.setPhoneNo(pre.getPhoneNo());
+            getAllStudentsResponseDTO.setRollNo(pre.getRollNo());
+            responseDTO.add(getAllStudentsResponseDTO);
+        }
+        return responseDTO;
+    }
+    public List<getAllStudentsResponseDTO> getAllStudentsByBranch(String branchCode){
+        List<Student> students = branchRepository.findByCode(branchCode).getStudentList();
+        List<getAllStudentsResponseDTO> responseDTO = new ArrayList<>();
+        for(Student pre :students){
+            getAllStudentsResponseDTO getAllStudentsResponseDTO = new getAllStudentsResponseDTO();
+            getAllStudentsResponseDTO.setName(pre.getName());
+            getAllStudentsResponseDTO.setPhoneNo(pre.getPhoneNo());
+            getAllStudentsResponseDTO.setRollNo(pre.getRollNo());
+            responseDTO.add(getAllStudentsResponseDTO);
+        }
+        return responseDTO;
+    }
+
+    public studentResponseDTO getStudent(String rollNo){
+        Student student = studentRepository.findByRollNo(rollNo);
+        studentResponseDTO studentResponseDTO = new studentResponseDTO();
+        studentResponseDTO.setName(student.getName());
+        studentResponseDTO.setPhoneNo(student.getPhoneNo());
+
+        return studentResponseDTO;
     }
 }
