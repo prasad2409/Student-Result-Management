@@ -8,8 +8,12 @@ import com.mangementsystem.studentresult_mangement.Repository.SemesterRepository
 import com.mangementsystem.studentresult_mangement.Repository.SubjectRepository;
 import com.mangementsystem.studentresult_mangement.RequestDTO.SubjectRequestDTO;
 import com.mangementsystem.studentresult_mangement.ResponseDTO.SubjectResponseDTO;
+import com.mangementsystem.studentresult_mangement.ResponseDTO.getAllSubjectsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SubjectService {
@@ -43,5 +47,19 @@ public class SubjectService {
         subjectResponseDTO.setSemNumber(semester.getSemNumber());
 
         return subjectResponseDTO;
+    }
+    public List<getAllSubjectsDTO> getAllSubjects(){
+        List<getAllSubjectsDTO> getAllSubjectsDTOS = new ArrayList<>();
+        List<Subject> subjects = new ArrayList<>();
+        subjects = subjectRepository.findAll();
+        for(Subject s : subjects){
+            getAllSubjectsDTO getAllSubjectsDTO = new getAllSubjectsDTO();
+            getAllSubjectsDTO.setSubjectName(s.getSubjectName());
+            getAllSubjectsDTO.setMarks(s.getMax_Marks());
+            getAllSubjectsDTO.setCredits(s.getCredits());
+            getAllSubjectsDTO.setSubjectCode(s.getSubjectCode());
+            getAllSubjectsDTOS.add(getAllSubjectsDTO);
+        }
+        return getAllSubjectsDTOS;
     }
 }

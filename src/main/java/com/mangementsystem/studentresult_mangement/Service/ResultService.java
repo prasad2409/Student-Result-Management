@@ -7,8 +7,12 @@ import com.mangementsystem.studentresult_mangement.Repository.ResultRepository;
 import com.mangementsystem.studentresult_mangement.Repository.StudentRepository;
 import com.mangementsystem.studentresult_mangement.Repository.SubjectRepository;
 import com.mangementsystem.studentresult_mangement.RequestDTO.ResultRequestDTO;
+import com.mangementsystem.studentresult_mangement.ResponseDTO.allResultsResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ResultService {
@@ -60,5 +64,25 @@ public class ResultService {
         resultRepository.save(result);
 
         return "Result Added with "+result.getGrade()+" Grade";
+    }
+    public List<allResultsResponseDTO> getAllResults(){
+        List<allResultsResponseDTO> allResultsResponseDTOS = new ArrayList<>();
+        List<Result> results = resultRepository.findAll();
+        for(Result r : results){
+            allResultsResponseDTO allResultsResponseDTO = new allResultsResponseDTO();
+            allResultsResponseDTO.setMarksScored(r.getMarksScored());
+            allResultsResponseDTO.setCredits(r.getCredits());
+            allResultsResponseDTO.setGrade(r.getGrade());
+
+            Student student = r.getStudent();
+            allResultsResponseDTO.setStudentName(student.getName());
+            allResultsResponseDTO.setStudentRollNo(student.getRollNo());
+
+            Subject subject = r.getSubject();
+            allResultsResponseDTO.setSubjectName(subject.getSubjectName());
+
+            allResultsResponseDTOS.add(allResultsResponseDTO);
+        }
+        return allResultsResponseDTOS;
     }
 }

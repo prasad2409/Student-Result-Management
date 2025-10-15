@@ -1,8 +1,7 @@
 package com.mangementsystem.studentresult_mangement.Controller;
 
-import com.mangementsystem.studentresult_mangement.Entity.Student;
 import com.mangementsystem.studentresult_mangement.RequestDTO.StudentRequestDTO;
-import com.mangementsystem.studentresult_mangement.ResourceNotFoundException;
+import com.mangementsystem.studentresult_mangement.Exception.ResourceNotFoundException;
 import com.mangementsystem.studentresult_mangement.ResponseDTO.getAllStudentsResponseDTO;
 import com.mangementsystem.studentresult_mangement.ResponseDTO.studentResponseDTO;
 import com.mangementsystem.studentresult_mangement.Service.StudentService;
