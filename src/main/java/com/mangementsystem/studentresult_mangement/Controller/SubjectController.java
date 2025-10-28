@@ -17,11 +17,14 @@ public class SubjectController {
     SubjectService subjectService;
     @PostMapping("/add")
     public String addSubject(@RequestBody SubjectRequestDTO subjectRequestDTO){
-        SubjectResponseDTO subjectResponseDTO= subjectService.addSubject(subjectRequestDTO);
-        return "Subject Added to the branch of "+subjectResponseDTO.getBranchName()+" in semester "+subjectResponseDTO.getSemNumber();
+        return subjectService.addSubject(subjectRequestDTO);
     }
     @GetMapping("/get/all")
     public List<getAllSubjectsDTO> getAllSubjects(){
         return subjectService.getAllSubjects();
+    }
+    @GetMapping("/get/{branch}/{semester}")
+    public List<SubjectResponseDTO> getSubjectByBranchSem(@PathVariable String branch,@PathVariable int semester){
+        return subjectService.getSubjectByBranchSem(branch,semester);
     }
 }

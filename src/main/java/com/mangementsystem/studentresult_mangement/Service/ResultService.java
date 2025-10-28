@@ -85,4 +85,26 @@ public class ResultService {
         }
         return allResultsResponseDTOS;
     }
+    public List<allResultsResponseDTO> getStudentResult(String rollNo){
+        Student student = studentRepository.findByRollNo(rollNo);
+        List<allResultsResponseDTO> allResultsResponseDTOS = new ArrayList<>();
+        List<Result> results = student.getResultList();
+
+        for(Result r : results){
+            allResultsResponseDTO allResultsResponseDTO = new allResultsResponseDTO();
+            allResultsResponseDTO.setStudentName(student.getName());
+            allResultsResponseDTO.setStudentRollNo(student.getRollNo());
+
+            Subject subject = r.getSubject();
+            allResultsResponseDTO.setSubjectName(subject.getSubjectName());
+
+            allResultsResponseDTO.setMarksScored(r.getMarksScored());
+            allResultsResponseDTO.setGrade(r.getGrade());
+            allResultsResponseDTO.setCredits(r.getCredits());
+
+            allResultsResponseDTOS.add(allResultsResponseDTO);
+        }
+        return allResultsResponseDTOS;
+
+    }
 }

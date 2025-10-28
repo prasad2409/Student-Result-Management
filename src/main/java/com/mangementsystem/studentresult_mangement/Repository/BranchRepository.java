@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface BranchRepository extends JpaRepository<Branch,Integer> {
 
     Branch findByCode(String code);
+    Branch findByBranchName(String name);
 }

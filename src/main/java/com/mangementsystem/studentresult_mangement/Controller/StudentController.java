@@ -2,7 +2,7 @@ package com.mangementsystem.studentresult_mangement.Controller;
 
 import com.mangementsystem.studentresult_mangement.RequestDTO.StudentRequestDTO;
 import com.mangementsystem.studentresult_mangement.Exception.ResourceNotFoundException;
-import com.mangementsystem.studentresult_mangement.ResponseDTO.getAllStudentsResponseDTO;
+import com.mangementsystem.studentresult_mangement.ResponseDTO.allStudentsResponseDTO;
 import com.mangementsystem.studentresult_mangement.ResponseDTO.studentResponseDTO;
 import com.mangementsystem.studentresult_mangement.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,11 @@ public class StudentController {
         return studentService.deleteStudent(rollNo);
     }
     @GetMapping("/All/Branch/{code}")
-    public List<getAllStudentsResponseDTO> getAllStudentsByBranch(@PathVariable String code){
+    public List<allStudentsResponseDTO> getAllStudentsByBranch(@PathVariable String code){
         return studentService.getAllStudentsByBranch(code);
     }
     @GetMapping("/All")
-    public List<getAllStudentsResponseDTO> getAllStudents(){
+    public List<allStudentsResponseDTO> getAllStudents(){
         return studentService.getAllStudents();
     }
     @GetMapping("/get/{rollNo}")

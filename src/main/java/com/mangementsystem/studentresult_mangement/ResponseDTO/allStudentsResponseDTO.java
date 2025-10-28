@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class getAllStudentsResponseDTO {
+public class allStudentsResponseDTO {
     private String rollNo;
     private String name;
     private String phoneNo;

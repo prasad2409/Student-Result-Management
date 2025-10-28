@@ -23,7 +23,7 @@ public class SubjectService {
     BranchRepository branchRepository;
     @Autowired
     SemesterRepository semesterRepository;
-    public SubjectResponseDTO addSubject(SubjectRequestDTO subjectRequestDTO){
+    public String addSubject(SubjectRequestDTO subjectRequestDTO){
         Subject subject = new Subject();
         subject.setSubjectName(subjectRequestDTO.getSubjectName());
         subject.setCredits(subjectRequestDTO.getCredits());
@@ -42,11 +42,7 @@ public class SubjectService {
         subject.setSemester(semester); // Connecting subject and student(one to one)
         semesterRepository.save(semester);
 
-        SubjectResponseDTO subjectResponseDTO = new SubjectResponseDTO();
-        subjectResponseDTO.setBranchName(branch.getBranchName());
-        subjectResponseDTO.setSemNumber(semester.getSemNumber());
-
-        return subjectResponseDTO;
+        return "Subject Added";
     }
     public List<getAllSubjectsDTO> getAllSubjects(){
         List<getAllSubjectsDTO> getAllSubjectsDTOS = new ArrayList<>();
@@ -61,5 +57,28 @@ public class SubjectService {
             getAllSubjectsDTOS.add(getAllSubjectsDTO);
         }
         return getAllSubjectsDTOS;
+    }
+    public List<SubjectResponseDTO> getSubjectByBranchSem(String branch,int semester){
+        Branch branch1 = branchRepository.findByBranchName(branch);
+        List<Semester> semesters = semesterRepository.findBySemNumber(semester);
+        List<SubjectResponseDTO> subjectResponseDTOS = new ArrayList<>();
+        List<Subject> subjects = new ArrayList<>();
+        for(Semester s : semesters){
+            if(s.getSemNumber() == semester && s.getBranch().getBranchName().equals(branch)){
+                subjects = s.getSubjectsList();
+                break;
+            }
+        }
+        for(Subject s : subjects){
+            SubjectResponseDTO subjectResponseDTO = new SubjectResponseDTO();
+
+            subjectResponseDTO.setSubjectName(s.getSubjectName());
+            subjectResponseDTO.setSubjectCode(s.getSubjectCode());
+            subjectResponseDTO.setCredits(s.getCredits());
+            subjectResponseDTO.setMax_Marks(s.getMax_Marks());
+
+            subjectResponseDTOS.add(subjectResponseDTO);
+        }
+        return subjectResponseDTOS;
     }
 }

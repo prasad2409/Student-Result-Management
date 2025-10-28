@@ -1,5 +1,6 @@
 package com.mangementsystem.studentresult_mangement.Controller;
 
+import com.mangementsystem.studentresult_mangement.Exception.ResourceNotFoundException;
 import com.mangementsystem.studentresult_mangement.RequestDTO.ResultRequestDTO;
 import com.mangementsystem.studentresult_mangement.ResponseDTO.allResultsResponseDTO;
 import com.mangementsystem.studentresult_mangement.Service.ResultService;
@@ -21,5 +22,14 @@ public class ResultController {
     @GetMapping("/get/all")
     public List<allResultsResponseDTO> getAllResults(){
         return resultService.getAllResults();
+    }
+    @GetMapping("get/student/{rollNo}")
+    public List<allResultsResponseDTO> getStudentResult(@PathVariable String rollNo) throws Exception {
+        try {
+            return resultService.getStudentResult(rollNo);
+        }
+        catch (Exception e){
+            throw new ResourceNotFoundException("Not found student with roll number "+rollNo);
+        }
     }
 }
